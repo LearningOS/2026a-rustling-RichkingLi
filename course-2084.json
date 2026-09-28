@@ -2,8 +2,8 @@
   "schema": 1,
   "courseId": 2084,
   "repository": "LearningOS/2026a-rustling-RichkingLi",
-  "commit": "59822ae5ed601cc1c2a314c665dfffa87a568130",
-  "score": 34,
+  "commit": "a7462e18c37651e2c2c6d680347bfa7088baccef",
+  "score": 36,
   "totalScore": 110,
   "exercises": [
     {
@@ -247,16 +247,16 @@
     {
       "name": "enums2",
       "max": 1,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 1
+      "score": 1,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "enums3",
       "max": 1,
-      "score": 0,
-      "status": "fail",
-      "exitCode": 1
+      "score": 1,
+      "status": "pass",
+      "exitCode": 0
     },
     {
       "name": "strings1",
@@ -778,9 +778,9 @@
     }
   ],
   "student": "RichkingLi",
-  "runId": "36423802618",
+  "runId": "36429006333",
   "runAttempt": "1",
   "upload": {
-    "status": "accepted"
+    "status": "pending"
   }
 }
