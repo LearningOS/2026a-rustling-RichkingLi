@@ -1,22 +1,18 @@
 // errors1.rs
 //
-// This function refuses to generate text to be printed on a nametag if you pass
-// it an empty string. It'd be nicer if it explained what the problem was,
-// instead of just sometimes returning `None`. Thankfully, Rust has a similar
-// construct to `Result` that can be used to express error conditions. Let's use
-// it!
+// 这个函数在你传入空字符串时，拒绝生成要打印在名牌上的文本。如果能说明
+// 问题出在哪里，而不是只在部分情况下返回 `None`，体验会更好。好在 Rust
+// 有一个与 `Result` 类似的构造，可以用来表达错误条件。我们用上它吧！
 //
-// Execute `rustlings hint errors1` or use the `hint` watch subcommand for a
-// hint.
+// 执行 `rustlings hint errors1` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
 
-pub fn generate_nametag_text(name: String) -> Option<String> {
+pub fn generate_nametag_text(name: String) -> Result<String, String> {
     if name.is_empty() {
-        // Empty names aren't allowed.
-        None
+        // 空名字是不允许的。
+        Err("`name` was empty; it must be nonempty.".to_string())
     } else {
-        Some(format!("Hi! My name is {}", name))
+        Ok(format!("Hi! My name is {}", name))
     }
 }
 
@@ -36,7 +32,7 @@ mod tests {
     fn explains_why_generating_nametag_text_fails() {
         assert_eq!(
             generate_nametag_text("".into()),
-            // Don't change this line
+            // 不要修改这一行
             Err("`name` was empty; it must be nonempty.".into())
         );
     }

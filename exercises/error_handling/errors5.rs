@@ -1,42 +1,36 @@
 // errors5.rs
 //
-// This program uses an altered version of the code from errors4.
+// 这个程序使用了 errors4 代码的一个改动版。
 //
-// This exercise uses some concepts that we won't get to until later in the
-// course, like `Box` and the `From` trait. It's not important to understand
-// them in detail right now, but you can read ahead if you like. For now, think
-// of the `Box<dyn ???>` type as an "I want anything that does ???" type, which,
-// given Rust's usual standards for runtime safety, should strike you as
-// somewhat lenient!
+// 这个练习会用到一些课程后面才会讲到的概念，比如 `Box` 和 `From`
+// trait。现在不必深究它们，但感兴趣的话可以提前读一读。眼下你可以把
+// `Box<dyn ???>` 类型理解为"我想要任何能做 ??? 这件事的东西"的类型——
+// 以 Rust 一贯的运行时安全标准来看，这在你眼里应该算相当宽松了！
 //
-// In short, this particular use case for boxes is for when you want to own a
-// value and you care only that it is a type which implements a particular
-// trait. To do so, The Box is declared as of type Box<dyn Trait> where Trait is
-// the trait the compiler looks for on any value used in that context. For this
-// exercise, that context is the potential errors which can be returned in a
-// Result.
+// 简单说，Box 的这种用法适用于：你想拥有一个值，并且只关心它是实现了某
+// 个特定 trait 的类型。为此，把 Box 声明为 Box<dyn Trait>，其中 Trait
+// 就是编译器在该上下文中对每个用到的值去查找的 trait。在本练习里，这个
+// 上下文就是 Result 里可能被返回的那些错误。
 //
-// What can we use to describe both errors? In other words, is there a trait
-// which both errors implement?
+// 我们可以用什么来同时描述这两种错误？换句话说，有没有一个两种错误都实
+// 现了的 trait？
 //
-// Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
-// hint.
+// 执行 `rustlings hint errors5` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
 
 use std::error;
 use std::fmt;
 use std::num::ParseIntError;
 
-// TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
+// TODO：修改 `main()` 的返回类型，让这个程序能编译通过。
+fn main() -> Result<(), Box<dyn error::Error>> {
     let pretend_user_input = "42";
     let x: i64 = pretend_user_input.parse()?;
     println!("output={:?}", PositiveNonzeroInteger::new(x)?);
     Ok(())
 }
 
-// Don't change anything below this line.
+// 不要修改这一行以下的任何内容。
 
 #[derive(PartialEq, Debug)]
 struct PositiveNonzeroInteger(u64);
@@ -57,7 +51,7 @@ impl PositiveNonzeroInteger {
     }
 }
 
-// This is required so that `CreationError` can implement `error::Error`.
+// 这是为了让 `CreationError` 能够实现 `error::Error` 所必需的。
 impl fmt::Display for CreationError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let description = match *self {
