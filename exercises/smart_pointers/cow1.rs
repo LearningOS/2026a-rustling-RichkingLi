@@ -1,18 +1,13 @@
 // cow1.rs
 //
-// This exercise explores the Cow, or Clone-On-Write type. Cow is a
-// clone-on-write smart pointer. It can enclose and provide immutable access to
-// borrowed data, and clone the data lazily when mutation or ownership is
-// required. The type is designed to work with general borrowed data via the
-// Borrow trait.
+// 这个练习探索 Cow，即 Clone-On-Write（写时克隆）类型。Cow 是一个写时克隆的智能指针。
+// 它能包裹借来的数据并提供不可变访问；当需要做修改或需要所有权时，才惰性地把数据克隆出来。
+// 这个类型通过 Borrow trait 设计成能配合通用的借来数据使用。
 //
-// This exercise is meant to show you what to expect when passing data to Cow.
-// Fix the unit tests by checking for Cow::Owned(_) and Cow::Borrowed(_) at the
-// TODO markers.
+// 本练习意在让你了解：把数据传给 Cow 时会发生什么。在 TODO 标记处检查
+// Cow::Owned(_) 和 Cow::Borrowed(_)，从而修复单元测试。
 //
-// Execute `rustlings hint cow1` or use the `hint` watch subcommand for a hint.
-
-// I AM NOT DONE
+// 执行 `rustlings hint cow1` 或使用 `hint` watch 子命令来获取提示。
 
 use std::borrow::Cow;
 
@@ -20,7 +15,7 @@ fn abs_all<'a, 'b>(input: &'a mut Cow<'b, [i32]>) -> &'a mut Cow<'b, [i32]> {
     for i in 0..input.len() {
         let v = input[i];
         if v < 0 {
-            // Clones into a vector if not already owned.
+            // 如果尚未拥有数据，则克隆成一个向量。
             input.to_mut()[i] = -v;
         }
     }
@@ -33,7 +28,7 @@ mod tests {
 
     #[test]
     fn reference_mutation() -> Result<(), &'static str> {
-        // Clone occurs because `input` needs to be mutated.
+        // 发生克隆，因为 `input` 需要被修改。
         let slice = [-1, 0, 1];
         let mut input = Cow::from(&slice[..]);
         match abs_all(&mut input) {
@@ -44,35 +39,36 @@ mod tests {
 
     #[test]
     fn reference_no_mutation() -> Result<(), &'static str> {
-        // No clone occurs because `input` doesn't need to be mutated.
+        // 不发生克隆，因为 `input` 不需要被修改。
         let slice = [0, 1, 2];
         let mut input = Cow::from(&slice[..]);
         match abs_all(&mut input) {
-            // TODO
+            Cow::Borrowed(_) => Ok(()),
+            _ => Err("Expected borrowed value"),
         }
     }
 
     #[test]
     fn owned_no_mutation() -> Result<(), &'static str> {
-        // We can also pass `slice` without `&` so Cow owns it directly. In this
-        // case no mutation occurs and thus also no clone, but the result is
-        // still owned because it was never borrowed or mutated.
+        // 我们也可以不加 `&` 直接把 `slice` 传进去，这样 Cow 直接拥有它。这种情况下
+        // 不发生修改，因而也不克隆；但结果仍是 owned，因为它从未被借出或修改过。
         let slice = vec![0, 1, 2];
         let mut input = Cow::from(slice);
         match abs_all(&mut input) {
-            // TODO
+            Cow::Owned(_) => Ok(()),
+            _ => Err("Expected owned value"),
         }
     }
 
     #[test]
     fn owned_mutation() -> Result<(), &'static str> {
-        // Of course this is also the case if a mutation does occur. In this
-        // case the call to `to_mut()` returns a reference to the same data as
-        // before.
+        // 当然，如果真发生了修改，也是同样的情况。此时对 `to_mut()` 的调用返回的
+        // 还是和之前相同的数据的引用。
         let slice = vec![-1, 0, 1];
         let mut input = Cow::from(slice);
         match abs_all(&mut input) {
-            // TODO
+            Cow::Owned(_) => Ok(()),
+            _ => Err("Expected owned value"),
         }
     }
 }

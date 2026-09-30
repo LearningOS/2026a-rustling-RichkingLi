@@ -1,39 +1,33 @@
 // arc1.rs
 //
-// In this exercise, we are given a Vec of u32 called "numbers" with values
-// ranging from 0 to 99 -- [ 0, 1, 2, ..., 98, 99 ] We would like to use this
-// set of numbers within 8 different threads simultaneously. Each thread is
-// going to get the sum of every eighth value, with an offset.
+// 在这个练习里，我们拿到一个名为 "numbers" 的 u32 向量，值是 0 到 99 ——
+// [ 0, 1, 2, ..., 98, 99 ]。我们想在 8 个不同的线程里同时使用这组数字。每个线程
+// 会按偏移量，求"每隔 8 个取值"之和。
 //
-// The first thread (offset 0), will sum 0, 8, 16, ...
-// The second thread (offset 1), will sum 1, 9, 17, ...
-// The third thread (offset 2), will sum 2, 10, 18, ...
+// 第一个线程（偏移 0）求 0, 8, 16, ...
+// 第二个线程（偏移 1）求 1, 9, 17, ...
+// 第三个线程（偏移 2）求 2, 10, 18, ...
 // ...
-// The eighth thread (offset 7), will sum 7, 15, 23, ...
+// 第八个线程（偏移 7）求 7, 15, 23, ...
 //
-// Because we are using threads, our values need to be thread-safe.  Therefore,
-// we are using Arc.  We need to make a change in each of the two TODOs.
+// 因为我们用了线程，数据必须线程安全。因此这里用 Arc。我们需要在两处 TODO 各做一处改动。
 //
-// Make this code compile by filling in a value for `shared_numbers` where the
-// first TODO comment is, and create an initial binding for `child_numbers`
-// where the second TODO comment is. Try not to create any copies of the
-// `numbers` Vec!
+// 让代码编译通过：在第一个 TODO 注释处给 `shared_numbers` 填一个值，并在第二个 TODO 注释处
+// 给 `child_numbers` 创建一个初始绑定。尽量不要对 `numbers` 向量做任何拷贝！
 //
-// Execute `rustlings hint arc1` or use the `hint` watch subcommand for a hint.
+// 执行 `rustlings hint arc1` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
-
-#![forbid(unused_imports)] // Do not change this, (or the next) line.
+#![forbid(unused_imports)] // 不要改动这一行（以及下一行）。
 use std::sync::Arc;
 use std::thread;
 
 fn main() {
     let numbers: Vec<_> = (0..100u32).collect();
-    let shared_numbers = // TODO
+    let shared_numbers = Arc::new(numbers);
     let mut joinhandles = Vec::new();
 
     for offset in 0..8 {
-        let child_numbers = // TODO
+        let child_numbers = Arc::clone(&shared_numbers);
         joinhandles.push(thread::spawn(move || {
             let sum: u32 = child_numbers.iter().filter(|&&n| n % 8 == offset).sum();
             println!("Sum of offset {} is {}", offset, sum);

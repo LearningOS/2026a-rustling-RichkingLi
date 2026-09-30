@@ -1,12 +1,10 @@
 // macros3.rs
 //
-// Make me compile, without taking the macro out of the module!
+// 让我编译通过，但不许把宏移出这个模块（module）！
 //
-// Execute `rustlings hint macros3` or use the `hint` watch subcommand for a
-// hint.
+// 执行 `rustlings hint macros3` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
-
+#[macro_use]
 mod macros {
     macro_rules! my_macro {
         () => {
