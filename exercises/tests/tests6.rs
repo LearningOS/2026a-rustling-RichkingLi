@@ -5,8 +5,6 @@
 //
 // 执行 `rustlings hint tests6` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
-
 struct Foo {
     a: u128,
     b: Option<String>,
@@ -17,8 +15,9 @@ struct Foo {
 /// 指针 `ptr` 必须包含一个被拥有的 `Foo` 装箱（Box）。
 unsafe fn raw_pointer_to_box(ptr: *mut Foo) -> Box<Foo> {
     // SAFETY: 根据契约，`ptr` 包含一个被拥有的 `Foo` 装箱。我们只是据此重建这个 Box。
-    let mut ret: Box<Foo> = unsafe { ??? };
-    todo!("The rest of the code goes here")
+    let mut ret: Box<Foo> = unsafe { Box::from_raw(ptr) };
+    ret.b = Some("hello".to_owned());
+    ret
 }
 
 #[cfg(test)]

@@ -15,7 +15,6 @@
 //
 // 执行 `rustlings hint tests5` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
 
 /// # Safety
 ///
@@ -24,7 +23,9 @@ unsafe fn modify_by_address(address: usize) {
     // TODO: 在下方代码块中填写你的安全说明，使其与代码行为以及本函数的契约相符。
     // 你可以参考下方测试的注释格式。
     unsafe {
-        todo!("Your code goes here")
+        //todo!("Your code goes here")
+        let ptr = address as *mut u32;   // 整数地址 → 裸指针
+        *ptr = 0xAABBCCDD;               // 解引用写入
     }
 }
 

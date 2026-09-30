@@ -26,7 +26,6 @@
 //
 // 执行 `rustlings hint tests7` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
 
 fn main() {}
 
