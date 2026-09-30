@@ -1,21 +1,16 @@
 // tests1.rs
 //
-// Tests are important to ensure that your code does what you think it should
-// do. Tests can be run on this file with the following command: rustlings run
-// tests1
+// 测试非常重要，能确保代码的行为符合你的预期。可以用以下命令运行本文件的测试：rustlings run tests1
 //
-// This test has a problem with it -- make the test compile! Make the test pass!
-// Make the test fail!
+// 这个测试本身有问题 —— 让它编译通过！让它运行通过！让它运行失败！
 //
-// Execute `rustlings hint tests1` or use the `hint` watch subcommand for a
-// hint.
+// 执行 `rustlings hint tests1` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
 
 #[cfg(test)]
 mod tests {
     #[test]
     fn you_can_assert() {
-        assert!();
+        assert!(true);
     }
 }

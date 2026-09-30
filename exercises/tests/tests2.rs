@@ -1,17 +1,14 @@
 // tests2.rs
 //
-// This test has a problem with it -- make the test compile! Make the test pass!
-// Make the test fail!
+// 这个测试本身有问题 —— 让它编译通过！让它运行通过！让它运行失败！
 //
-// Execute `rustlings hint tests2` or use the `hint` watch subcommand for a
-// hint.
+// 执行 `rustlings hint tests2` 或使用 `hint` watch 子命令来获取提示。
 
-// I AM NOT DONE
 
 #[cfg(test)]
 mod tests {
     #[test]
     fn you_can_assert_eq() {
-        assert_eq!();
+        assert_eq!("hello", "hello");
     }
 }
