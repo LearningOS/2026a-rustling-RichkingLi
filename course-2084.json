@@ -2,7 +2,7 @@
   "schema": 1,
   "courseId": 2084,
   "repository": "LearningOS/2026a-rustling-RichkingLi",
-  "commit": "9ce44a553af59b50d213e8bb646d209c10383810",
+  "commit": "f214480ad08cca3dfacc461334f6b359ed1ae34e",
   "score": 99,
   "totalScore": 110,
   "exercises": [
@@ -778,9 +778,9 @@
     }
   ],
   "student": "RichkingLi",
-  "runId": "36703175798",
+  "runId": "37740275100",
   "runAttempt": "1",
   "upload": {
-    "status": "accepted"
+    "status": "pending"
   }
 }
