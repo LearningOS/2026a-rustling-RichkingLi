@@ -1,9 +1,8 @@
 /*
-	dfs
-	This problem requires you to implement a basic DFS traversal
+	深度优先搜索（DFS）
+	本题要求你实现一个基本的 DFS 遍历
 */
 
-// I AM NOT DONE
 use std::collections::HashSet;
 
 struct Graph {
@@ -23,10 +22,16 @@ impl Graph {
     }
 
     fn dfs_util(&self, v: usize, visited: &mut HashSet<usize>, visit_order: &mut Vec<usize>) {
-        //TODO
+        visited.insert(v);
+        visit_order.push(v);
+        for &neighbor in &self.adj[v] {
+            if !visited.contains(&neighbor) {
+                self.dfs_util(neighbor, visited, visit_order);
+            }
+        }
     }
 
-    // Perform a depth-first search on the graph, return the order of visited nodes
+    // 对图执行深度优先搜索，返回被访问节点的顺序
     fn dfs(&self, start: usize) -> Vec<usize> {
         let mut visited = HashSet::new();
         let mut visit_order = Vec::new(); 
@@ -75,4 +80,3 @@ mod tests {
         assert_eq!(visit_order_disconnected, vec![3, 4]); 
     }
 }
-

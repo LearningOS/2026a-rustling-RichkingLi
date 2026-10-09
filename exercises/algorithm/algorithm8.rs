@@ -1,8 +1,7 @@
 /*
-	queue
-	This question requires you to use queues to implement the functionality of the stac
+	队列
+	本题要求你用队列来实现栈的功能
 */
-// I AM NOT DONE
 
 #[derive(Debug)]
 pub struct Queue<T> {
@@ -54,28 +53,31 @@ impl<T> Default for Queue<T> {
 
 pub struct myStack<T>
 {
-	//TODO
 	q1:Queue<T>,
 	q2:Queue<T>
 }
 impl<T> myStack<T> {
     pub fn new() -> Self {
         Self {
-			//TODO
 			q1:Queue::<T>::new(),
 			q2:Queue::<T>::new()
         }
     }
     pub fn push(&mut self, elem: T) {
-        //TODO
+        // 新元素先进 q2，再把 q1 原有元素全部挪到 q2，
+        // 交换后 q1 的队首就是“最后入栈”的元素（即栈顶）
+        self.q2.enqueue(elem);
+        while !self.q1.is_empty() {
+            self.q2.enqueue(self.q1.dequeue().unwrap());
+        }
+        std::mem::swap(&mut self.q1, &mut self.q2);
     }
     pub fn pop(&mut self) -> Result<T, &str> {
-        //TODO
-		Err("Stack is empty")
+        // 把底层队列的错误文案统一成“栈”的语义
+        self.q1.dequeue().map_err(|_| "Stack is empty")
     }
     pub fn is_empty(&self) -> bool {
-		//TODO
-        true
+        self.q1.is_empty()
     }
 }
 

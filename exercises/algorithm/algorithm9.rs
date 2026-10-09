@@ -1,8 +1,7 @@
 /*
-	heap
-	This question requires you to implement a binary heap function
+	堆
+	本题要求你实现一个二叉堆
 */
-// I AM NOT DONE
 
 use std::cmp::Ord;
 use std::default::Default;
@@ -37,7 +36,9 @@ where
     }
 
     pub fn add(&mut self, value: T) {
-        //TODO
+        self.items.push(value);
+        self.count += 1;
+        self.heapify_up(self.count);
     }
 
     fn parent_idx(&self, idx: usize) -> usize {
@@ -57,8 +58,41 @@ where
     }
 
     fn smallest_child_idx(&self, idx: usize) -> usize {
-        //TODO
-		0
+        let left = self.left_child_idx(idx);
+        let right = self.right_child_idx(idx);
+        if right > self.count {
+            left
+        } else if (self.comparator)(&self.items[left], &self.items[right]) {
+            left
+        } else {
+            right
+        }
+    }
+
+    // 新增辅助方法：把 idx 处的元素向上浮动到正确位置
+    fn heapify_up(&mut self, mut idx: usize) {
+        while idx > 1 {
+            let parent = self.parent_idx(idx);
+            if (self.comparator)(&self.items[idx], &self.items[parent]) {
+                self.items.swap(idx, parent);
+                idx = parent;
+            } else {
+                break;
+            }
+        }
+    }
+
+    // 新增辅助方法：把堆顶（idx=1）向下沉到正确位置
+    fn heapify_down(&mut self, mut idx: usize) {
+        while self.children_present(idx) {
+            let child = self.smallest_child_idx(idx);
+            if (self.comparator)(&self.items[child], &self.items[idx]) {
+                self.items.swap(child, idx);
+                idx = child;
+            } else {
+                break;
+            }
+        }
     }
 }
 
@@ -66,12 +100,12 @@ impl<T> Heap<T>
 where
     T: Default + Ord,
 {
-    /// Create a new MinHeap
+    /// 创建一个最小堆
     pub fn new_min() -> Self {
         Self::new(|a, b| a < b)
     }
 
-    /// Create a new MaxHeap
+    /// 创建一个最大堆
     pub fn new_max() -> Self {
         Self::new(|a, b| a > b)
     }
@@ -84,8 +118,16 @@ where
     type Item = T;
 
     fn next(&mut self) -> Option<T> {
-        //TODO
-		None
+        if self.count == 0 {
+            return None;
+        }
+        // items[1] 是堆顶；用 swap_remove 把它取出，并把末尾元素补到 1 号位
+        let root = self.items.swap_remove(1);
+        self.count -= 1;
+        if self.count > 0 {
+            self.heapify_down(1);
+        }
+        Some(root)
     }
 }
 

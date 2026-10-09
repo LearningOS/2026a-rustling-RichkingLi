@@ -1,8 +1,7 @@
 /*
-	single linked list merge
-	This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
+	单链表合并
+	本题要求你将两个有序的单链表合并成一个有序的单链表
 */
-// I AM NOT DONE
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
@@ -69,15 +68,54 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
-	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+
+    pub fn merge(list_a: LinkedList<T>, list_b: LinkedList<T>) -> Self
+    where
+        T: PartialOrd,
+    {
+        let mut result = LinkedList::<T>::new();
+        // 取出两条链表的头指针（NonNull 是 Copy，复制即可，节点所有权仍由各节点独立持有）
+        let mut a_ptr = list_a.start;
+        let mut b_ptr = list_b.start;
+
+        // 反复比较两条链表当前头节点的值，取较小者放入结果，并前进该链表；
+        // 取节点时用 Box::from_raw 收回所有权，把 val 移入结果、把 next 续到指针上，
+        // 节点本身在 boxed 离开作用域时被释放——既完成合并又避免内存泄漏。
+        loop {
+            match (a_ptr, b_ptr) {
+                (None, None) => break,
+                (Some(node), None) => {
+                    let boxed = unsafe { Box::from_raw(node.as_ptr()) };
+                    result.add(boxed.val);
+                    a_ptr = boxed.next;
+                    b_ptr = None;
+                }
+                (None, Some(node)) => {
+                    let boxed = unsafe { Box::from_raw(node.as_ptr()) };
+                    result.add(boxed.val);
+                    b_ptr = boxed.next;
+                    a_ptr = None;
+                }
+                (Some(a_node), Some(b_node)) => {
+                    // 仅借用比较，不移动 val，对 String 等非 Copy 类型也安全
+                    let a_ref = unsafe { &(*a_node.as_ptr()).val };
+                    let b_ref = unsafe { &(*b_node.as_ptr()).val };
+                    if *a_ref <= *b_ref {
+                        let boxed = unsafe { Box::from_raw(a_node.as_ptr()) };
+                        result.add(boxed.val);
+                        a_ptr = boxed.next;
+                        b_ptr = Some(b_node);
+                    } else {
+                        let boxed = unsafe { Box::from_raw(b_node.as_ptr()) };
+                        result.add(boxed.val);
+                        b_ptr = boxed.next;
+                        a_ptr = Some(a_node);
+                    }
+                }
+            }
         }
-	}
+        result
+    }
 }
 
 impl<T> Display for LinkedList<T>
@@ -135,7 +173,7 @@ mod tests {
 		let vec_a = vec![1,3,5,7];
 		let vec_b = vec![2,4,6,8];
 		let target_vec = vec![1,2,3,4,5,6,7,8];
-		
+
 		for i in 0..vec_a.len(){
 			list_a.add(vec_a[i]);
 		}

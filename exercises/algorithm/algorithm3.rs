@@ -1,12 +1,20 @@
 /*
-	sort
-	This problem requires you to implement a sorting algorithm
-	you can use bubble sorting, insertion sorting, heap sorting, etc.
+	排序
+	本题要求你实现一个排序算法
+	你可以使用冒泡排序、插入排序、堆排序等
 */
-// I AM NOT DONE
 
-fn sort<T>(array: &mut [T]){
-	//TODO
+fn sort<T: Ord>(array: &mut [T]) {
+	let n = array.len();
+	for i in 0..n {
+		// 每轮把当前最大的元素“冒泡”到末尾；用 saturating_sub 防止 n=0 时下溢
+		let last = n.saturating_sub(1).saturating_sub(i);
+		for j in 0..last {
+			if array[j] > array[j + 1] {
+				array.swap(j, j + 1);
+			}
+		}
+	}
 }
 #[cfg(test)]
 mod tests {
